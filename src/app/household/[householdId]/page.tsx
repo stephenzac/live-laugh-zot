@@ -1,9 +1,18 @@
-export default async function HouseHoldIdPage({
-  params,
-}: {
-  params: Promise<{ householdId: string }>;
-}) {
-  const householdId = (await params).householdId;
+'use client';
 
-  return <h1 className='text-3xl font-bold'>Welcome to {householdId}!</h1>;
+import { useHouseholdStore } from '@/lib/zustand/store';
+// import { redirect } from 'next/navigation';
+import { Chores } from './chores/chores';
+
+export default function HouseHoldIdPage() {
+  const { name, id, authenticated } = useHouseholdStore();
+
+  // if (!authenticated) redirect('/');
+
+  return (
+    <>
+      <h1 className='text-3xl font-bold'>Welcome to {name}!</h1>
+      <Chores householdName={name!} />
+    </>
+  );
 }
