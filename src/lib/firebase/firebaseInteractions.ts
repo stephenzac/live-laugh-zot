@@ -1,3 +1,3 @@
-'use server';
+"use server";
 
-import { db } from './firebaseConfig';
+import { db } from "./firebaseConfig";
