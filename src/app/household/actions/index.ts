@@ -2,6 +2,7 @@
 
 import { db } from '@/lib/firebase/firebaseConfig';
 import { titleCase } from '@/lib/firebase/string';
+import { compareSync } from 'bcryptjs';
 import {
   collection,
   doc,
@@ -11,10 +12,7 @@ import {
   where,
 } from 'firebase/firestore';
 
-export const attempLogin = async (
-  householdName: string,
-  passwordHash: string
-) => {
+export const attempLogin = async (householdName: string, password: string) => {
   const householdsRef = collection(db, 'households');
   const q = query(householdsRef, where('name', '==', householdName));
   const querySnapshot = await getDocs(q);
@@ -24,8 +22,9 @@ export const attempLogin = async (
   }
 
   const householdData = querySnapshot.docs[0].data();
+  const passwordIsValid = compareSync(password, householdData.passwordHash);
 
-  return householdData.passwordHash === passwordHash
+  return passwordIsValid
     ? {
         success: true,
         message: 'Login successful.',

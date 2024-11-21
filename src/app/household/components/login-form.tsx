@@ -21,12 +21,9 @@ export const LoginForm: React.FC = () => {
 
     setErrorText(null);
 
-    // TODO: Hash + salt password here
-
     const loginResponse = await attempLogin(householdName, password);
 
     if (!loginResponse.success) {
-      // error stuff here?
       setErrorText(loginResponse.message);
       return;
     }

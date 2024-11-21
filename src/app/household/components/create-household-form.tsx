@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createHousehold } from '../actions';
 import { useHouseholdStore } from '@/lib/zustand/store';
 import { redirect } from 'next/navigation';
+import { genSaltSync, hashSync } from 'bcryptjs';
 
 export const CreateHouseholdForm: React.FC = () => {
   const [householdName, setHouseholdName] = useState<string | null>(null);
@@ -32,11 +33,12 @@ export const CreateHouseholdForm: React.FC = () => {
       return;
     }
 
-    // TODO: hash + salt password here
+    const salt = genSaltSync(10);
+    const passwordHash = hashSync(password1, salt);
 
     const createHouseholdResponse = await createHousehold(
       householdName,
-      password1
+      passwordHash
     );
 
     if (!createHouseholdResponse.success) {
