@@ -14,11 +14,16 @@ export const LoginForm: React.FC = () => {
   const loginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (invalidLogin) {
+      setErrorText('Please fill out all fields.');
+      return;
+    }
+
     setErrorText(null);
 
     // TODO: Hash + salt password here
 
-    const loginResponse = await attempLogin(householdName!, password!);
+    const loginResponse = await attempLogin(householdName, password);
 
     if (!loginResponse.success) {
       // error stuff here?
@@ -27,7 +32,7 @@ export const LoginForm: React.FC = () => {
     }
 
     // set login state with zustand store
-    login(householdName!, loginResponse.householdId);
+    login(householdName, loginResponse.householdId);
     redirect(`/household/${loginResponse.householdId}`);
   };
 
@@ -35,7 +40,7 @@ export const LoginForm: React.FC = () => {
 
   return (
     <form className='flex flex-col mb-16' onSubmit={loginSubmit}>
-      <label htmlFor='householdId'>Household name</label>
+      <label htmlFor='householdId'>Household name (case sensitive)</label>
       <input
         type='text'
         name='householdId'

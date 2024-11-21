@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createHousehold } from '../actions';
 import { useHouseholdStore } from '@/lib/zustand/store';
 import { redirect } from 'next/navigation';
@@ -12,27 +12,40 @@ export const CreateHouseholdForm: React.FC = () => {
   const [errorText, setErrorText] = useState<string | null>(null);
   const { login } = useHouseholdStore();
 
+  useEffect(() => {
+    if (!password1 || !password2) {
+      setErrorText(null);
+      return;
+    }
+
+    if (password1 !== password2) setErrorText('Passwords must match.');
+    else setErrorText(null);
+  }, [password1, password2]);
+
   const createHouseholdSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setErrorText(null);
 
+    if (invalidEntry) {
+      setErrorText('Please fill out all fields.');
+      return;
+    }
+
     // TODO: hash + salt password here
-    console.log(householdName, password1);
 
     const createHouseholdResponse = await createHousehold(
-      householdName!,
-      password1!
+      householdName,
+      password1
     );
-    console.log(createHouseholdResponse);
 
     if (!createHouseholdResponse.success) {
       setErrorText(createHouseholdResponse.message);
       return;
     }
 
-    // zustand store stuff here, redirect to new household page
-    login(householdName!, createHouseholdResponse.householdId);
+    // zustand login store here, redirect to new household page
+    login(householdName, createHouseholdResponse.householdId!);
     redirect(`/household/${createHouseholdResponse.householdId}`);
   };
 

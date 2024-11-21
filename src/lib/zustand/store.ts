@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface HouseholdState {
+interface Household {
   name: string | null;
   id: string | null;
   authenticated: boolean;
@@ -8,7 +8,7 @@ interface HouseholdState {
   logout: () => void;
 }
 
-export const useHouseholdStore = create<HouseholdState>((set) => ({
+export const useHouseholdStore = create<Household>((set) => ({
   id: null,
   name: null,
   authenticated: false,
