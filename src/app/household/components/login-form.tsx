@@ -1,45 +1,63 @@
 'use client';
 
 import { useState } from 'react';
-import { login } from '../actions';
+import { attempLogin } from '../actions';
+import { useHouseholdStore } from '@/lib/zustand/store';
+import { redirect } from 'next/navigation';
 
 export const LoginForm: React.FC = () => {
-  const [householdId, setHouseHoldId] = useState<string | null>(null);
-  const [householdPassword, setHouseholdPassword] = useState<string | null>(
-    null
-  );
+  const [householdName, setHouseHoldName] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
+  const [errorText, setErrorText] = useState<string | null>(null);
+  const { login } = useHouseholdStore();
 
-  const loginSubmit = (e: React.FormEvent) => {
+  const loginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    login(householdId!, householdPassword!);
+    if (invalidLogin) {
+      setErrorText('Please fill out all fields.');
+      return;
+    }
+
+    setErrorText(null);
+
+    const loginResponse = await attempLogin(householdName, password);
+
+    if (!loginResponse.success) {
+      setErrorText(loginResponse.message);
+      return;
+    }
+
+    // set login state with zustand store
+    login(householdName, loginResponse.householdId);
+    redirect(`/household/${loginResponse.householdId}`);
   };
 
-  const invalidLogin = !householdId || !householdPassword;
+  const invalidLogin = !householdName || !password;
 
   return (
-    <form className='flex flex-col' onSubmit={loginSubmit}>
-      <label htmlFor='householdId'>Household ID:</label>
+    <form className='flex flex-col mb-16' onSubmit={loginSubmit}>
+      <label htmlFor='householdId'>Household name (case sensitive)</label>
       <input
         type='text'
         name='householdId'
         className='mb-8'
-        onChange={(e) => setHouseHoldId(e.target.value)}
+        onChange={(e) => setHouseHoldName(e.target.value)}
       />
 
-      <label htmlFor='householdPassword'>Household password:</label>
+      <label htmlFor='householdPassword'>Household password</label>
       <input
         type='password'
         name='housholdPassword'
         className='mb-8'
-        onChange={(e) => setHouseholdPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
       />
 
       <button
         type='submit'
         value='Submit'
         disabled={invalidLogin}
-        className={`flex justify-center w-16 transition-colors ${
+        className={`flex justify-center w-16 transition-colors mb-4 ${
           invalidLogin
             ? 'bg-amber-100 text-gray-300 hover:cursor-not-allowed'
             : 'bg-amber-200'
@@ -47,6 +65,7 @@ export const LoginForm: React.FC = () => {
       >
         Login
       </button>
+      {errorText && <p className='text-red-500'>{errorText}</p>}
     </form>
   );
 };
