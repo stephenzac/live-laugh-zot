@@ -3,6 +3,10 @@
 import { db } from '@/lib/firebase/firebaseConfig';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import {
+  addToField,
+  deleteFromField,
+} from '@/lib/firebase/firebaseInteractions';
 
 interface ChoresProps {
   householdName: string;
@@ -12,6 +16,7 @@ interface ChoresProps {
 export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
   const [chores, setChores] = useState<string[]>([]);
   const [newChore, setNewChore] = useState<string | null>(null);
+  const [selectedChores, setSelectedChores] = useState<string[]>([]);
 
   useEffect(() => {
     if (!householdName || !id) return;
@@ -32,15 +37,30 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
     e.preventDefault();
     if (!newChore) return;
 
-    console.log('adding, ', newChore);
-    // call add chore function here
-
+    addToField(id, 'chores', newChore);
     setNewChore(null);
   };
 
+  const choreSelection = (chore: string) => {
+    setSelectedChores((prev) =>
+      prev.includes(chore) ? prev.filter((c) => c !== chore) : [...prev, chore]
+    );
+  };
+
+  const removeSelectedChores = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!selectedChores.length) return;
+
+    selectedChores.forEach(async (chore) => {
+      await deleteFromField(id, 'chores', chore);
+    });
+    setSelectedChores([]);
+  };
+
   return (
-    <div className='bg-white p-4'>
-      <h2 className='text-center'>chores for {householdName}</h2>
+    <div className='bg-white p-4 rounded-md'>
+      <h2 className='text-center'>chores</h2>
 
       <form onSubmit={addChore} className='mb-4'>
         <input
@@ -52,11 +72,27 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
         />
       </form>
 
-      <ul className='flex flex-col items-center'>
-        {chores.map((chore) => (
-          <li key={chore}>{chore}</li>
-        ))}
-      </ul>
+      <form onSubmit={removeSelectedChores}>
+        <ul className='flex flex-col items-start pl-4'>
+          {chores.map((chore) => (
+            <li key={chore}>
+              <div className='flex items-center gap-2'>
+                <input
+                  type='checkbox'
+                  onChange={() => choreSelection(chore)}
+                  checked={selectedChores.includes(chore)}
+                  className='accent-green-500'
+                />
+                {chore}
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <button className='' type='submit'>
+          Remove selected
+        </button>
+      </form>
     </div>
   );
 };
