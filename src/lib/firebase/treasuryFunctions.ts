@@ -1,8 +1,10 @@
 import { db } from "./firebaseConfig";
 import { collection, doc, getDoc, updateDoc, arrayUnion, arrayRemove} from 'firebase/firestore';
 
+const ID_MAX: number = 100000000000;
+
 interface Cost {
-    id: string;
+    id: number;
     title: string;
     category: string;
     amount: number;
@@ -25,13 +27,10 @@ export const getCosts = async (householdId: string): Promise<Cost[] | undefined>
 };
 
 export const addCost = async(
-    householdId: string, id: string, title: string, category: string, amount: number, payer: string
+    householdId: string, title: string, category: string, amount: number, payer: string
     ) => {
     if (!householdId) {
         console.error("No household ID has been provided.");
-    }
-    if (!id) {
-        console.error("No Id has been provided.");
     }
     if (!title) {
         console.error("No title was given.");
@@ -44,6 +43,7 @@ export const addCost = async(
     }
 
     try {
+        const id: number = Math.floor(Math.random() * ID_MAX);
         const cost: Cost = {
             id: id, 
             title: title,
@@ -60,7 +60,7 @@ export const addCost = async(
 }
 
 export const updateCost = async(
-    householdId: string, id: string, title: string, category: string, amount: number, payer: string
+    householdId: string, id: number, title: string, category: string, amount: number, payer: string
     ) => {
     if (!id) {
         console.error("No Id was given.");
@@ -112,7 +112,7 @@ export const updateCost = async(
     }
 }
 
-export const removeCost = async(householdId: string, id: string) => {
+export const removeCost = async(householdId: string, id: number) => {
     if (!id) {
         console.error("No Id was given.");
     }
