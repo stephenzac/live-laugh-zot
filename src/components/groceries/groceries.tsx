@@ -10,6 +10,7 @@ import {
 import { HouseholdList } from '../household-list/household-list';
 import { HouseholdListItem } from '../household-list/household-list-item';
 import { AddNewItem } from '../household-list/add-new-item';
+import { RemoveButton } from '../household-list/remove-button';
 
 interface GroceriesProps {
   householdName: string;
@@ -29,7 +30,7 @@ export const Groceries: React.FC<GroceriesProps> = ({ householdName, id }) => {
     const unsubscribe = onSnapshot(householdDocRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.data();
-        setGroceries(data.groceries);
+        setGroceries(data.groceries || []);
       }
     });
 
@@ -41,7 +42,7 @@ export const Groceries: React.FC<GroceriesProps> = ({ householdName, id }) => {
     if (!newGrocery) return;
 
     addToField(id, 'groceries', newGrocery);
-    setNewGrocery(null);
+    setNewGrocery('');
   };
 
   const grocerySelection = (grocery: string) => {
@@ -64,8 +65,8 @@ export const Groceries: React.FC<GroceriesProps> = ({ householdName, id }) => {
   };
 
   return (
-    <div className='text-center bg-white p-4 rounded-md'>
-      <h2 className='text-center'>groceries</h2>
+    <div className='bg-white rounded-md p-4 max-w-4xl mx-auto shadow-md'>
+      <h2 className='font-extrabold text-lg text-center mb-4'>🛒 Groceries</h2>
 
       <AddNewItem
         addNewItemFunction={addNewGroceryItem}
@@ -76,7 +77,7 @@ export const Groceries: React.FC<GroceriesProps> = ({ householdName, id }) => {
         placeHolderText='Add new item'
       />
 
-      <form onSubmit={removeSelectedGroceries}>
+      <form onSubmit={removeSelectedGroceries} className='mt-4'>
         <HouseholdList>
           {groceries.map((grocery) => (
             <HouseholdListItem
@@ -89,9 +90,9 @@ export const Groceries: React.FC<GroceriesProps> = ({ householdName, id }) => {
         </HouseholdList>
 
         {selectedGroceries.length >= 1 && (
-          <button className='bg-orange-200 p-1 rounded-md' type='submit'>
-            Remove selected
-          </button>
+          <div className='mt-4 flex justify-start'>
+            <RemoveButton />
+          </div>
         )}
       </form>
     </div>

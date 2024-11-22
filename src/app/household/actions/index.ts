@@ -62,6 +62,8 @@ export const createHousehold = async (
     chores: [],
     groceries: [],
     notes: [],
+    Costs: [],
+    Transactions: [],
   };
 
   try {

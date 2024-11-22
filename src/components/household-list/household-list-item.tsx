@@ -1,5 +1,4 @@
 interface HouseholdListItemProps {
-  //   children?: React.ReactNode;
   item: string;
   selectedItems: string[];
   onItemSelect: (item: string) => void;
@@ -11,7 +10,7 @@ export const HouseholdListItem: React.FC<HouseholdListItemProps> = ({
   onItemSelect,
 }) => {
   return (
-    <li>
+    <li className='self-start indent-0'>
       <div className='flex items-center gap-2'>
         <input
           type='checkbox'

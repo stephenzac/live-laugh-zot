@@ -8,13 +8,14 @@ export const decideResolver = async (
   people: string[],
   resolution: string
 ) => {
-  if (resolution == 'randomizer') return randomResolver(people);
+  if (resolution == 'randomizer') return { message: randomResolver(people) };
   else if (resolution == 'AI') {
     const systemPrompt = `Be concise and give one solution to a conflict. Limit your answer to 
       4 sentences.The person(s) involved are: ${people.join(
         ', '
       )}. The problem at hand is: `;
-    return await decideAI(problem, systemPrompt);
+    const message = await decideAI(problem, systemPrompt);
+    return { message };
   }
 };
 
@@ -22,7 +23,7 @@ export const randomResolver = (people: string[]) => {
   const numPeople = people.length;
   const winner = Math.round(Math.random() * numPeople);
   for (let i = 0; i < numPeople; i++) {
-    if (winner == i) return `Do what ${people[i]} says.`;
+    if (winner == i) return `Go with what ${people[i]} says.`;
   }
 };
 

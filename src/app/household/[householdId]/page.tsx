@@ -19,11 +19,11 @@ export default function HouseholdPage() {
       <h1 className='text-3xl font-bold mb-14'>Welcome to {name}!</h1>
 
       <div className='flex flex-col md:flex-row gap-8'>
+        <TheForum householdName={name!} id={id!} />
+        <ConflictResolver householdName={name!} id={id!} />
         <Chores householdName={name!} id={id!} />
         <Residents householdName={name!} id={id!} />
         <Groceries householdName={name!} id={id!} />
-        <ConflictResolver />
-        <TheForum householdName={name!} id={id!} />
       </div>
       <Treasury householdName={name!} id={id!} />
     </div>
