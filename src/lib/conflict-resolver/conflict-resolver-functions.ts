@@ -11,11 +11,14 @@ export const decideResolver = (
   resolution: string
 ) => {
   const numPeople = people.length;
+  //hi
   if (resolution == 'dice' && numPeople == 2) return diceResolver(people);
   else if (resolution == 'coin' && numPeople > 2) return coinResolver(people);
   else if (resolution == 'AI') {
-    const systemPrompt = `You are resolving a conflict. The person(s) involved are: 
-      ${people.join(', ')}. Be descriptive and give a decisive solution.`;
+    const systemPrompt = `Be concise and give one solution to a conflict. Limit your answer to 
+      4 sentences.The person(s) involved are: ${people.join(
+        ', '
+      )}. The problem at hand is: `;
     return decideAI(problem, systemPrompt);
   }
 };
