@@ -15,17 +15,24 @@ export default function HouseholdPage() {
   if (!authenticated) redirect('/');
 
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='flex flex-col gap-8 mb-8'>
       <h1 className='text-3xl font-bold mb-14'>Welcome to {name}!</h1>
 
       <div className='flex flex-col md:flex-row gap-8'>
-        <TheForum householdName={name!} id={id!} />
-        <ConflictResolver householdName={name!} id={id!} />
-        <Chores householdName={name!} id={id!} />
-        <Residents householdName={name!} id={id!} />
-        <Groceries householdName={name!} id={id!} />
+        <div className='flex flex-col justify-center md:flex-row gap-8 w-full'>
+          <div className='flex flex-col gap-4'>
+            <Residents householdName={name!} id={id!} />
+            <Groceries householdName={name!} id={id!} />
+          </div>
+
+          <Chores householdName={name!} id={id!} />
+          <TheForum householdName={name!} id={id!} />
+        </div>
       </div>
-      <Treasury householdName={name!} id={id!} />
+      <div className='flex flex-col md:flex-row gap-8'>
+        <ConflictResolver householdName={name!} id={id!} />
+        <Treasury householdName={name!} id={id!} />
+      </div>
     </div>
   );
 }

@@ -78,7 +78,9 @@ export const ConflictResolver: React.FC<ConflictResolverProps> = ({
 
   return (
     <div className='bg-white rounded-md p-6 max-w-4xl mx-auto shadow-md'>
-      <h2 className='font-extrabold text-lg mb-4'>💬 Conflict Resolver</h2>
+      <h2 className='font-extrabold text-lg mb-4 text-center'>
+        💬 Conflict Resolver
+      </h2>
 
       <form
         onSubmit={handleSubmit}
@@ -92,7 +94,7 @@ export const ConflictResolver: React.FC<ConflictResolverProps> = ({
             id='problem'
             value={problem || ''}
             onChange={(e) => setProblem(e.target.value)}
-            placeholder='Describe the problem in detail'
+            placeholder='Describe your problem'
             className='rounded-md border-2 border-slate-300 p-2 focus:outline-none focus:ring focus:ring-blue-300'
           />
         </div>
@@ -139,7 +141,7 @@ export const ConflictResolver: React.FC<ConflictResolverProps> = ({
 
       {responseMessage && (
         <div
-          className={`mt-4 text-center text-sm font-medium p-2 rounded-md h-12 flex items-center justify-center w-full max-w-md mx-auto ${
+          className={`mt-4 text-center text-sm font-medium p-2 rounded-md  flex items-center justify-center max-w-sm mx-auto ${
             responseMessage.startsWith('Conflict resolved:')
               ? 'bg-green-100 text-green-700'
               : 'bg-red-100 text-red-700'
