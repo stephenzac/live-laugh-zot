@@ -17,5 +17,5 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Geist_Mono';
+  /* font-family: 'Geist_Mono'; */
 }
