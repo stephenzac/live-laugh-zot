@@ -24,7 +24,7 @@ export default function HouseholdPage() {
   if (!authenticated) redirect('/');
 
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='flex flex-col gap-8 mb-16'>
       <h1
         className={`${goblin.className} text-3xl md:text-5xl w-full text-center md:mb-8`}
       >

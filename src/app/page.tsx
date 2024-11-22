@@ -16,7 +16,7 @@ export default function Home() {
         <h1 className={`${fascinate.className} text-3xl md:text-5xl mb-5`}>
           Live, Laugh, Zot 🌞
         </h1>
-        <h2 className='text-xl mb-5 italic'>
+        <h2 className='w-full text-center text-xl mb-5 italic'>
           The perfect tool for Anteater households!
         </h2>
       </header>
