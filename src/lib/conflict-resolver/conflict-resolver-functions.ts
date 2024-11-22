@@ -11,6 +11,7 @@ export const decideResolver = (
   resolution: string
 ) => {
   const numPeople = people.length;
+  //hi
   if (resolution == 'dice' && numPeople == 2) return diceResolver(people);
   else if (resolution == 'coin' && numPeople > 2) return coinResolver(people);
   else if (resolution == 'AI') {

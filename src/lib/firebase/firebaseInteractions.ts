@@ -16,7 +16,7 @@ export const deleteFromField = async (
     else if (fieldName == 'groceries')
       await updateDoc(docRef, { groceries: arrayRemove(memberName) });
     else if (fieldName == 'notes')
-      await updateDoc(docRef, { groceries: arrayRemove(memberName) });
+      await updateDoc(docRef, { notes: arrayRemove(memberName) });
     else if (fieldName == 'residents')
       await updateDoc(docRef, { residents: arrayRemove(memberName) });
   } catch (error) {
@@ -37,7 +37,7 @@ export const addToField = async (
     else if (fieldName == 'groceries')
       await updateDoc(docRef, { groceries: arrayUnion(memberName) });
     else if (fieldName == 'notes')
-      await updateDoc(docRef, { groceries: arrayUnion(memberName) });
+      await updateDoc(docRef, { notes: arrayUnion(memberName) });
     else if (fieldName == 'residents')
       await updateDoc(docRef, { residents: arrayUnion(memberName) });
   } catch (error) {
