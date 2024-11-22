@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const api = new GoogleGenerativeAI(`${process.env.API_KEY}`);
+const api = new GoogleGenerativeAI(`${process.env.NEXT_PUBLIC_API_KEY}`);
 const model = api.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 export const decideResolver = async (
