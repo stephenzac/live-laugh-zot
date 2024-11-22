@@ -8,14 +8,8 @@ export const decideResolver = async (
   people: string[],
   resolution: string
 ) => {
-  const numPeople = people.length;
-  if (resolution == 'dice') {
-    if (numPeople == 2) return diceResolver(people);
-    else return 'Make sure there are only 2 people involved.';
-  } else if (resolution == 'coin') {
-    if (numPeople > 2) return coinResolver(people);
-    else return 'Make sure there are more than 2 people involved.';
-  } else if (resolution == 'AI') {
+  if (resolution == 'randomizer') return randomResolver(people);
+  else if (resolution == 'AI') {
     const systemPrompt = `Be concise and give one solution to a conflict. Limit your answer to 
       4 sentences.The person(s) involved are: ${people.join(
         ', '
@@ -24,16 +18,11 @@ export const decideResolver = async (
   }
 };
 
-export const coinResolver = (people: string[]) => {
-  const winner = Math.round(Math.random());
-  return `Do what ${people[winner]} says.`;
-};
-
-export const diceResolver = (people: string[]) => {
+export const randomResolver = (people: string[]) => {
   const numPeople = people.length;
   const winner = Math.round(Math.random() * numPeople);
   for (let i = 0; i < numPeople; i++) {
-    if (winner == i) return `${people[i]} is in the right.`;
+    if (winner == i) return `Do what ${people[i]} says.`;
   }
 };
 
