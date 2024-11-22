@@ -59,7 +59,7 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
   };
 
   return (
-    <div className='bg-white p-4 rounded-md'>
+    <div className='text-center bg-white p-4 rounded-md'>
       <h2 className='text-center'>chores</h2>
 
       <form onSubmit={addChore} className='mb-4'>
@@ -73,7 +73,7 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
       </form>
 
       <form onSubmit={removeSelectedChores}>
-        <ul className='flex flex-col items-start pl-4'>
+        <ul className='flex flex-col items-start pl-4 mb-4'>
           {chores.map((chore) => (
             <li key={chore}>
               <div className='flex items-center gap-2'>
@@ -89,9 +89,11 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
           ))}
         </ul>
 
-        <button className='' type='submit'>
-          Remove selected
-        </button>
+        {selectedChores.length >= 1 && (
+          <button className='bg-orange-200 p-1 rounded-md' type='submit'>
+            Remove selected
+          </button>
+        )}
       </form>
     </div>
   );

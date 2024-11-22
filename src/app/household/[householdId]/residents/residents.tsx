@@ -61,7 +61,7 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
   };
 
   return (
-    <div className='bg-white p-4 rounded-md'>
+    <div className='text-center bg-white p-4 rounded-md'>
       <h2 className='text-center'>residents</h2>
 
       <form onSubmit={addNewResident} className='mb-4'>
@@ -75,7 +75,7 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
       </form>
 
       <form onSubmit={removeSelectedResidents}>
-        <ul className='flex flex-col items-start pl-4'>
+        <ul className='flex flex-col items-start pl-4 mb-4'>
           {residents.map((resident) => (
             <li key={resident}>
               <div className='flex items-center gap-2'>
@@ -91,9 +91,11 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
           ))}
         </ul>
 
-        <button className='' type='submit'>
-          Remove selected
-        </button>
+        {selectedResidents.length >= 1 && (
+          <button className='bg-orange-200 p-1 rounded-md' type='submit'>
+            Remove selected
+          </button>
+        )}
       </form>
     </div>
   );

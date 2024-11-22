@@ -6,6 +6,7 @@ import { Chores } from './chores/chores';
 import { Residents } from './residents/residents';
 import { Groceries } from './groceries/groceries';
 import { CostSplitter } from './cost-splitter/cost-splitter';
+import { ConflictResolver } from './conflict-resolver/conflict-resolver';
 
 export default function HouseholdPage() {
   const { name, id, authenticated } = useHouseholdStore();
@@ -21,6 +22,7 @@ export default function HouseholdPage() {
         <Residents householdName={name!} id={id!} />
         <Groceries householdName={name!} id={id!} />
         <CostSplitter />
+        <ConflictResolver />
       </div>
     </>
   );
