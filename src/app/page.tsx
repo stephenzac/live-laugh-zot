@@ -21,7 +21,7 @@ export default function Home() {
         </h2>
       </header>
 
-      <div className='flex flex-col gap-8 sm:flex-row sm:gap-8 md:gap-16'>
+      <div className='flex flex-col gap-8 sm:flex-row sm:gap-8 md:gap-16 mb-16'>
         <div className='flex flex-col bg-white rounded-md p-6 sm:p-8 md:p-12 max-w-xl w-full mx-auto shadow-md'>
           <h2 className='text-2xl font-bold mb-3 text-center sm:text-left'>
             Log in to Household
