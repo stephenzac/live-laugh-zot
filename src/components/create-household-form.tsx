@@ -60,7 +60,8 @@ export const CreateHouseholdForm: React.FC = () => {
       <input
         type='text'
         name='householdId'
-        className='mb-8'
+        placeholder='Household Name'
+        className='text-center rounded-md border-2 border-slate-300 p-2 w-full mb-8'
         onChange={(e) => setHouseholdName(e.target.value)}
       />
 
@@ -68,7 +69,8 @@ export const CreateHouseholdForm: React.FC = () => {
       <input
         type='password'
         name='housholdPassword1'
-        className='mb-8'
+        placeholder='Password'
+        className='text-center rounded-md border-2 border-slate-300 p-2 w-full mb-8'
         onChange={(e) => setPassword1(e.target.value)}
       />
 
@@ -76,7 +78,8 @@ export const CreateHouseholdForm: React.FC = () => {
       <input
         type='password'
         name='housholdPassword2'
-        className='mb-8'
+        placeholder='Confirm Password'
+        className='text-center rounded-md border-2 border-slate-300 p-2 w-full mb-8'
         onChange={(e) => setPassword2(e.target.value)}
       />
 
@@ -84,7 +87,7 @@ export const CreateHouseholdForm: React.FC = () => {
         type='submit'
         value='Submit'
         disabled={invalidEntry}
-        className={`flex justify-center w-16 transition-colors ${
+        className={`text-white font-bold p-2 rounded-md w-full transition-colors ${
           invalidEntry
             ? 'bg-amber-100 text-gray-300 hover:cursor-not-allowed mb-10'
             : 'bg-amber-200 mb-10'

@@ -41,7 +41,8 @@ export const LoginForm: React.FC = () => {
       <input
         type='text'
         name='householdId'
-        className='mb-8'
+        placeholder='Household Name'
+        className='text-center rounded-md border-2 border-slate-300 p-2 w-full mb-8'
         onChange={(e) => setHouseHoldName(e.target.value)}
       />
 
@@ -49,7 +50,8 @@ export const LoginForm: React.FC = () => {
       <input
         type='password'
         name='housholdPassword'
-        className='mb-8'
+        placeholder='Password'
+        className='text-center rounded-md border-2 border-slate-300 p-2 w-full mb-8'
         onChange={(e) => setPassword(e.target.value)}
       />
 
@@ -57,10 +59,10 @@ export const LoginForm: React.FC = () => {
         type='submit'
         value='Submit'
         disabled={invalidLogin}
-        className={`flex justify-center w-16 transition-colors mb-4 ${
+        className={`text-white font-bold p-2 rounded-md w-full transition-colors ${
           invalidLogin
-            ? 'bg-amber-100 text-gray-300 hover:cursor-not-allowed'
-            : 'bg-amber-200'
+            ? 'bg-amber-100 text-gray-500 hover:cursor-not-allowed'
+            : 'bg-orange-300'
         }`}
       >
         Login
