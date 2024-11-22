@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { attempLogin } from '../actions';
+import { attempLogin } from '../app/household/actions';
 import { useHouseholdStore } from '@/lib/zustand/store';
 import { redirect } from 'next/navigation';
 

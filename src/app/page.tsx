@@ -1,5 +1,5 @@
-import { LoginForm } from '@/app/household/components/login-form';
-import { CreateHouseholdForm } from './household/components/create-household-form';
+import { LoginForm } from '@/components/login-form';
+import { CreateHouseholdForm } from '../components/create-household-form';
 
 export default function Home() {
   return (

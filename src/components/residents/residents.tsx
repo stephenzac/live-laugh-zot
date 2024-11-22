@@ -7,6 +7,9 @@ import {
 } from '@/lib/firebase/firebaseInteractions';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { HouseholdList } from '../household-list/household-list';
+import { HouseholdListItem } from '../household-list/household-list-item';
+import { AddNewItem } from '../household-list/add-new-item';
 
 interface MembersProps {
   householdName: string;
@@ -64,32 +67,26 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
     <div className='text-center bg-white p-4 rounded-md'>
       <h2 className='text-center'>residents</h2>
 
-      <form onSubmit={addNewResident} className='mb-4'>
-        <input
-          className='text-center rounded-md border-2 border-slate-300'
-          type='text'
-          onChange={(e) => setNewResident(e.target.value)}
-          placeholder='Add a new roommate...'
-          value={newResident || ''}
-        />
-      </form>
+      <AddNewItem
+        addNewItemFunction={addNewResident}
+        newItem={newResident}
+        setNewItemFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setNewResident(e.target.value)
+        }
+        placeHolderText='Add a new resident'
+      />
 
       <form onSubmit={removeSelectedResidents}>
-        <ul className='flex flex-col items-start pl-4 mb-4'>
+        <HouseholdList>
           {residents.map((resident) => (
-            <li key={resident}>
-              <div className='flex items-center gap-2'>
-                <input
-                  type='checkbox'
-                  onChange={() => residentSelection(resident)}
-                  checked={selectedResidents.includes(resident)}
-                  className='accent-green-500'
-                />
-                {resident}
-              </div>
-            </li>
+            <HouseholdListItem
+              key={resident}
+              item={resident}
+              onItemSelect={residentSelection}
+              selectedItems={selectedResidents}
+            />
           ))}
-        </ul>
+        </HouseholdList>
 
         {selectedResidents.length >= 1 && (
           <button className='bg-orange-200 p-1 rounded-md' type='submit'>

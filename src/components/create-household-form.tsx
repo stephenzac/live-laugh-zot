@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createHousehold } from '../actions';
+import { createHousehold } from '../app/household/actions';
 import { useHouseholdStore } from '@/lib/zustand/store';
 import { redirect } from 'next/navigation';
 import { genSaltSync, hashSync } from 'bcryptjs';

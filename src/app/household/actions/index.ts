@@ -58,9 +58,10 @@ export const createHousehold = async (
     name: householdName,
     id: newHouseholdId,
     passwordHash,
-    members: [],
+    residents: [],
     chores: [],
     groceries: [],
+    notes: [],
   };
 
   try {

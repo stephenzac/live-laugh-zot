@@ -7,6 +7,9 @@ import {
   addToField,
   deleteFromField,
 } from '@/lib/firebase/firebaseInteractions';
+import { HouseholdList } from '../household-list/household-list';
+import { HouseholdListItem } from '../household-list/household-list-item';
+import { AddNewItem } from '../household-list/add-new-item';
 
 interface GroceriesProps {
   householdName: string;
@@ -64,32 +67,26 @@ export const Groceries: React.FC<GroceriesProps> = ({ householdName, id }) => {
     <div className='text-center bg-white p-4 rounded-md'>
       <h2 className='text-center'>groceries</h2>
 
-      <form onSubmit={addNewGroceryItem} className='mb-4'>
-        <input
-          className='text-center rounded-md border-2 border-slate-300'
-          type='text'
-          onChange={(e) => setNewGrocery(e.target.value)}
-          placeholder='Add a new item...'
-          value={newGrocery || ''}
-        />
-      </form>
+      <AddNewItem
+        addNewItemFunction={addNewGroceryItem}
+        newItem={newGrocery}
+        setNewItemFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setNewGrocery(e.target.value)
+        }
+        placeHolderText='Add new item'
+      />
 
       <form onSubmit={removeSelectedGroceries}>
-        <ul className='flex flex-col items-start pl-4 mb-4'>
+        <HouseholdList>
           {groceries.map((grocery) => (
-            <li key={grocery}>
-              <div className='flex items-center gap-2'>
-                <input
-                  type='checkbox'
-                  onChange={() => grocerySelection(grocery)}
-                  checked={selectedGroceries.includes(grocery)}
-                  className='accent-green-500'
-                />
-                {grocery}
-              </div>
-            </li>
+            <HouseholdListItem
+              key={grocery}
+              item={grocery}
+              onItemSelect={grocerySelection}
+              selectedItems={selectedGroceries}
+            />
           ))}
-        </ul>
+        </HouseholdList>
 
         {selectedGroceries.length >= 1 && (
           <button className='bg-orange-200 p-1 rounded-md' type='submit'>
