@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase/firebaseConfig';
-import { Cost, Trans } from '@/lib/firebase/treasuryFunctions';
+import { addCost, Cost, Trans } from '@/lib/firebase/treasuryFunctions';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
@@ -11,6 +11,21 @@ interface TreasuryProps {
 export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
   const [costs, setCosts] = useState<Cost[]>([]);
   const [transactions, setTransactions] = useState<Trans[]>([]);
+
+  // Form state for new cost
+  const [newCost, setNewCost] = useState({
+    title: '',
+    category: '',
+    amount: '',
+    payer: '',
+  });
+
+  // Form state for new transaction
+  const [newTransaction, setNewTransaction] = useState({
+    payer: '',
+    paidTo: '',
+    amount: '',
+  });
 
   useEffect(() => {
     if (!householdName || !id) return;
@@ -28,19 +43,77 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
     return () => unsubscribe();
   }, [householdName, id]);
 
+  // Handle input changes for new cost
+  const handleCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewCost((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle input changes for new transaction
+  const handleTransactionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewTransaction((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle form submission for new cost
+  const handleAddCost = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { title, category, amount, payer } = newCost;
+
+    if (!title || !category || !amount || !payer) {
+      alert('Please fill all the fields');
+      return;
+    }
+
+    await addCost(id, title, category, parseFloat(amount), payer);
+
+    // Clear form
+    setNewCost({
+      title: '',
+      category: '',
+      amount: '',
+      payer: '',
+    });
+  };
+
+  // Handle form submission for new transaction
+  const handleAddTransaction = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { payer, paidTo, amount } = newTransaction;
+
+    if (!payer || !paidTo || !amount) {
+      alert('Please fill all the fields');
+      return;
+    }
+
+    // await addTrans(id, payer, paidTo, ...);
+
+    // Clear form
+    setNewTransaction({
+      payer: '',
+      paidTo: '',
+      amount: '',
+    });
+  };
+
   return (
     <div className='flex justify-center'>
       <div className='w-full max-w-3xl bg-white p-6 rounded-lg shadow-md'>
-        {/* Header */}
         <h1 className='text-xl font-bold text-gray-800 text-center'>
           💰 Cost Splitter
         </h1>
 
+        {/* Costs and Transactions display */}
         <div className='grid gap-6 mt-6 sm:grid-cols-1 lg:grid-cols-2'>
-          {/* Costs */}
           <div className='p-4 bg-gray-50 rounded-lg shadow-sm'>
             <h2 className='text-lg font-semibold text-gray-700'>Need to Pay</h2>
-            <ul className='mt-3 space-y-2'>
+            <ul className='mt-3 space-y-2 max-h-64 overflow-y-scroll'>
               {costs.length > 0 ? (
                 costs.map((cost, index) => (
                   <li
@@ -68,7 +141,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
             </ul>
           </div>
 
-          {/* Transactions */}
           <div className='p-4 bg-gray-50 rounded-lg shadow-sm'>
             <h2 className='text-lg font-semibold text-gray-700'>
               Transactions
@@ -96,65 +168,87 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
         </div>
 
         <div className='grid gap-6 mt-6 sm:grid-cols-1 lg:grid-cols-2'>
-          {/* Add New Cost */}
           <div className='p-4 bg-gray-50 rounded-lg shadow-sm'>
             <h2 className='text-lg font-semibold text-gray-700'>
               Add a New Cost
             </h2>
-            <form className='flex flex-col gap-4 mt-3'>
+            <form className='flex flex-col gap-4 mt-3' onSubmit={handleAddCost}>
               <input
                 type='text'
+                name='title'
                 placeholder="Title (e.g., Dinner at Joe's)"
-                className='border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className='border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                value={newCost.title}
+                onChange={handleCostChange}
               />
               <input
                 type='text'
+                name='category'
                 placeholder='Category (e.g., Food)'
-                className='border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className='border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                value={newCost.category}
+                onChange={handleCostChange}
               />
               <input
                 type='number'
+                name='amount'
                 placeholder='Amount (e.g., 25.00)'
-                className='border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className='border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                value={newCost.amount}
+                onChange={handleCostChange}
               />
               <input
                 type='text'
+                name='payer'
                 placeholder='Payer (e.g., John)'
-                className='border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className='border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                value={newCost.payer}
+                onChange={handleCostChange}
               />
               <button
                 type='submit'
-                className='bg-orange-200 text-white font-bold p-2 rounded-md w-full'
+                className='bg-orange-200 text-white font-bold p-1 rounded-md w-full'
               >
                 Add Cost
               </button>
             </form>
           </div>
 
-          {/* Create a Transaction */}
           <div className='p-4 bg-gray-50 rounded-lg shadow-sm'>
             <h2 className='text-lg font-semibold text-gray-700'>
               Create a Transaction
             </h2>
-            <form className='flex flex-col gap-4 mt-3'>
+            <form
+              className='flex flex-col gap-4 mt-3'
+              onSubmit={handleAddTransaction}
+            >
               <input
                 type='text'
+                name='payer'
                 placeholder='Payer (e.g., John)'
-                className='border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500'
+                className='border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-green-500'
+                value={newTransaction.payer}
+                onChange={handleTransactionChange}
               />
               <input
                 type='text'
+                name='paidTo'
                 placeholder='Paid To (e.g., Jane)'
-                className='border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500'
+                className='border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-green-500'
+                value={newTransaction.paidTo}
+                onChange={handleTransactionChange}
               />
               <input
                 type='number'
+                name='amount'
                 placeholder='Amount (e.g., 15.00)'
-                className='border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500'
+                className='border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-green-500'
+                value={newTransaction.amount}
+                onChange={handleTransactionChange}
               />
               <button
                 type='submit'
-                className='bg-orange-200 text-white font-bold p-2 rounded-md w-full'
+                className='bg-orange-200 text-white font-bold p-1 rounded-md w-full'
               >
                 Record Transaction
               </button>
@@ -162,22 +256,11 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
           </div>
         </div>
 
-        {/* Outstanding Balances */}
         <div className='p-4 bg-gray-50 rounded-lg shadow-sm mt-6'>
           <h2 className='text-lg font-semibold text-gray-700'>
             Outstanding Balances
           </h2>
-          <ul className='mt-3 space-y-2'>
-            {/* Replace with dynamic calculations */}
-            <li className='flex justify-between items-center text-sm text-gray-700'>
-              <span>John owes Jane</span>
-              <span className='font-bold text-red-500'>$15.00</span>
-            </li>
-            <li className='flex justify-between items-center text-sm text-gray-700'>
-              <span>Jane owes Mike</span>
-              <span className='font-bold text-red-500'>$10.00</span>
-            </li>
-          </ul>
+          <ul className='mt-3 space-y-2'></ul>
         </div>
       </div>
     </div>

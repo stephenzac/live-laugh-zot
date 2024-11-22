@@ -15,7 +15,7 @@ const goblin = Goblin_One({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-goblin',
-  weight: ['400']
+  weight: ['400'],
 });
 
 export default function HouseholdPage() {
@@ -24,17 +24,28 @@ export default function HouseholdPage() {
   if (!authenticated) redirect('/');
 
   return (
-    <div className='w-full text-center gap-8'>
-      <h1 className={`${goblin.className} text-[50px] mb-20`}>Welcome to {name}!</h1>
+    <div className='flex flex-col gap-8'>
+      <h1
+        className={`${goblin.className} text-3xl md:text-5xl w-full text-center md:mb-8`}
+      >
+        Welcome to {name}!
+      </h1>
 
       <div className='flex flex-col md:flex-row gap-8'>
-        <TheForum householdName={name!} id={id!} />
-        <ConflictResolver householdName={name!} id={id!} />
-        <Chores householdName={name!} id={id!} />
-        <Residents householdName={name!} id={id!} />
-        <Groceries householdName={name!} id={id!} />
+        <div className='flex flex-col justify-center md:flex-row gap-8 w-full'>
+          <div className='flex flex-col gap-4'>
+            <Residents householdName={name!} id={id!} />
+            <Groceries householdName={name!} id={id!} />
+          </div>
+
+          <Chores householdName={name!} id={id!} />
+          <TheForum householdName={name!} id={id!} />
+        </div>
       </div>
-      <Treasury householdName={name!} id={id!} />
+      <div className='flex flex-col md:flex-row self-center gap-8'>
+        <ConflictResolver householdName={name!} id={id!} />
+        <Treasury householdName={name!} id={id!} />
+      </div>
     </div>
   );
 }

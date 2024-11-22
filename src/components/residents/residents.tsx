@@ -68,33 +68,35 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
     <div className='bg-white rounded-md p-4 max-w-4xl mx-auto shadow-md'>
       <h2 className='font-extrabold text-lg text-center mb-4'>🏠 Residents</h2>
 
-      <AddNewItem
-        addNewItemFunction={addNewResident}
-        newItem={newResident}
-        setNewItemFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setNewResident(e.target.value)
-        }
-        placeHolderText='Add a new resident'
-      />
+      <div className='bg-gray-50 rounded-md p-4'>
+        <AddNewItem
+          addNewItemFunction={addNewResident}
+          newItem={newResident}
+          setNewItemFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setNewResident(e.target.value)
+          }
+          placeHolderText='Add a new resident'
+        />
 
-      <form onSubmit={removeSelectedResidents} className='mt-4'>
-        <HouseholdList>
-          {residents.map((resident) => (
-            <HouseholdListItem
-              key={resident}
-              item={resident}
-              onItemSelect={residentSelection}
-              selectedItems={selectedResidents}
-            />
-          ))}
-        </HouseholdList>
+        <form onSubmit={removeSelectedResidents} className='mt-4'>
+          <HouseholdList>
+            {residents.map((resident) => (
+              <HouseholdListItem
+                key={resident}
+                item={resident}
+                onItemSelect={residentSelection}
+                selectedItems={selectedResidents}
+              />
+            ))}
+          </HouseholdList>
 
-        {selectedResidents.length >= 1 && (
-          <div className='mt-4 flex justify-start'>
-            <RemoveButton />
-          </div>
-        )}
-      </form>
+          {selectedResidents.length >= 1 && (
+            <div className='mt-4 flex justify-start'>
+              <RemoveButton />
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };

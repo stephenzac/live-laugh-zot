@@ -68,33 +68,35 @@ export const Groceries: React.FC<GroceriesProps> = ({ householdName, id }) => {
     <div className='bg-white rounded-md p-4 max-w-4xl mx-auto shadow-md'>
       <h2 className='font-extrabold text-lg text-center mb-4'>🛒 Groceries</h2>
 
-      <AddNewItem
-        addNewItemFunction={addNewGroceryItem}
-        newItem={newGrocery}
-        setNewItemFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setNewGrocery(e.target.value)
-        }
-        placeHolderText='Add new item'
-      />
+      <div className='bg-gray-50 rounded-md p-4'>
+        <AddNewItem
+          addNewItemFunction={addNewGroceryItem}
+          newItem={newGrocery}
+          setNewItemFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setNewGrocery(e.target.value)
+          }
+          placeHolderText='Add new item'
+        />
 
-      <form onSubmit={removeSelectedGroceries} className='mt-4'>
-        <HouseholdList>
-          {groceries.map((grocery) => (
-            <HouseholdListItem
-              key={grocery}
-              item={grocery}
-              onItemSelect={grocerySelection}
-              selectedItems={selectedGroceries}
-            />
-          ))}
-        </HouseholdList>
+        <form onSubmit={removeSelectedGroceries} className='mt-4'>
+          <HouseholdList>
+            {groceries.map((grocery) => (
+              <HouseholdListItem
+                key={grocery}
+                item={grocery}
+                onItemSelect={grocerySelection}
+                selectedItems={selectedGroceries}
+              />
+            ))}
+          </HouseholdList>
 
-        {selectedGroceries.length >= 1 && (
-          <div className='mt-4 flex justify-start'>
-            <RemoveButton />
-          </div>
-        )}
-      </form>
+          {selectedGroceries.length >= 1 && (
+            <div className='mt-4 flex justify-start'>
+              <RemoveButton />
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };
