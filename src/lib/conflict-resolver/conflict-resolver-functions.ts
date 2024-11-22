@@ -1,17 +1,20 @@
 import OpenAI from 'openai';
 
 const baseURL = 'https://api.aimlapi.com/v1';
-const apiKey = process.env.OPENAI_KEY;
+const apiKey = process.env.OPENAIKEY;
 
-const api = new OpenAI({ apiKey, baseURL });
+const api = new OpenAI({
+  apiKey: '164587c4c89f4d10ace7dd902f2e7593',
+  baseURL,
+  dangerouslyAllowBrowser: true,
+});
 
-export const decideResolver = (
+export const decideResolver = async (
   problem: string,
   people: string[],
   resolution: string
 ) => {
   const numPeople = people.length;
-  //hi
   if (resolution == 'dice' && numPeople == 2) return diceResolver(people);
   else if (resolution == 'coin' && numPeople > 2) return coinResolver(people);
   else if (resolution == 'AI') {
@@ -19,7 +22,7 @@ export const decideResolver = (
       4 sentences.The person(s) involved are: ${people.join(
         ', '
       )}. The problem at hand is: `;
-    return decideAI(problem, systemPrompt);
+    return await decideAI(problem, systemPrompt);
   }
 };
 
@@ -53,7 +56,7 @@ export const decideAI = async (userInput: string, systemPrompt: string) => {
     max_tokens: 256,
   });
 
-  const chatResponse = completion.choices[0].message.content;
+  const chatResponse = completion?.choices?.[0]?.message?.content;
 
   return chatResponse;
 };

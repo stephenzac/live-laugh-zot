@@ -7,6 +7,9 @@ import {
   addToField,
   deleteFromField,
 } from '@/lib/firebase/firebaseInteractions';
+import { HouseholdList } from '../household-list/household-list';
+import { HouseholdListItem } from '../household-list/household-list-item';
+import { AddNewItem } from '../household-list/add-new-item';
 
 interface ChoresProps {
   householdName: string;
@@ -59,39 +62,35 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
   };
 
   return (
-    <div className='bg-white p-4 rounded-md'>
+    <div className='text-center bg-white p-4 rounded-md'>
       <h2 className='text-center'>chores</h2>
 
-      <form onSubmit={addChore} className='mb-4'>
-        <input
-          className='text-center rounded-md border-2 border-slate-300'
-          type='text'
-          onChange={(e) => setNewChore(e.target.value)}
-          placeholder='Add a chore...'
-          value={newChore || ''}
-        />
-      </form>
+      <AddNewItem
+        addNewItemFunction={addChore}
+        newItem={newChore}
+        setNewItemFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setNewChore(e.target.value)
+        }
+        placeHolderText='Add new chore'
+      />
 
       <form onSubmit={removeSelectedChores}>
-        <ul className='flex flex-col items-start pl-4'>
+        <HouseholdList>
           {chores.map((chore) => (
-            <li key={chore}>
-              <div className='flex items-center gap-2'>
-                <input
-                  type='checkbox'
-                  onChange={() => choreSelection(chore)}
-                  checked={selectedChores.includes(chore)}
-                  className='accent-green-500'
-                />
-                {chore}
-              </div>
-            </li>
+            <HouseholdListItem
+              key={chore}
+              item={chore}
+              onItemSelect={choreSelection}
+              selectedItems={selectedChores}
+            />
           ))}
-        </ul>
+        </HouseholdList>
 
-        <button className='' type='submit'>
-          Remove selected
-        </button>
+        {selectedChores.length >= 1 && (
+          <button className='bg-orange-200 p-1 rounded-md' type='submit'>
+            Remove selected
+          </button>
+        )}
       </form>
     </div>
   );
