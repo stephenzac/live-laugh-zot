@@ -4,7 +4,7 @@
 
 :root {
   --background: #fe0000;
-  --foreground: #00ff0d; 
+  --foreground: #00ff0d;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,5 +17,5 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: cursive;
+  /* font-family: cursive; */
 }

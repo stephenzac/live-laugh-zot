@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase/firebaseConfig';
-import { Cost, Trans } from '@/lib/firebase/treasuryFunctions';
+import { addCost, Cost, Trans } from '@/lib/firebase/treasuryFunctions';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
@@ -28,16 +28,18 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
     return () => unsubscribe();
   }, [householdName, id]);
 
+  // const createCost = () => {
+  //   await addCost(id, )
+  // };
+
   return (
     <div className='flex justify-center'>
       <div className='w-full max-w-3xl bg-white p-6 rounded-lg shadow-md'>
-        {/* Header */}
         <h1 className='text-xl font-bold text-gray-800 text-center'>
           💰 Cost Splitter
         </h1>
 
         <div className='grid gap-6 mt-6 sm:grid-cols-1 lg:grid-cols-2'>
-          {/* Costs */}
           <div className='p-4 bg-gray-50 rounded-lg shadow-sm'>
             <h2 className='text-lg font-semibold text-gray-700'>Need to Pay</h2>
             <ul className='mt-3 space-y-2'>
@@ -68,7 +70,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
             </ul>
           </div>
 
-          {/* Transactions */}
           <div className='p-4 bg-gray-50 rounded-lg shadow-sm'>
             <h2 className='text-lg font-semibold text-gray-700'>
               Transactions
@@ -96,12 +97,11 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
         </div>
 
         <div className='grid gap-6 mt-6 sm:grid-cols-1 lg:grid-cols-2'>
-          {/* Add New Cost */}
           <div className='p-4 bg-gray-50 rounded-lg shadow-sm'>
             <h2 className='text-lg font-semibold text-gray-700'>
               Add a New Cost
             </h2>
-            <form className='flex flex-col gap-4 mt-3'>
+            <form className='flex flex-col gap-4 mt-3' onSubmit={addCost}>
               <input
                 type='text'
                 placeholder="Title (e.g., Dinner at Joe's)"
@@ -131,7 +131,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
             </form>
           </div>
 
-          {/* Create a Transaction */}
           <div className='p-4 bg-gray-50 rounded-lg shadow-sm'>
             <h2 className='text-lg font-semibold text-gray-700'>
               Create a Transaction
@@ -162,21 +161,19 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
           </div>
         </div>
 
-        {/* Outstanding Balances */}
         <div className='p-4 bg-gray-50 rounded-lg shadow-sm mt-6'>
           <h2 className='text-lg font-semibold text-gray-700'>
             Outstanding Balances
           </h2>
           <ul className='mt-3 space-y-2'>
-            {/* Replace with dynamic calculations */}
-            <li className='flex justify-between items-center text-sm text-gray-700'>
+            {/* <li className='flex justify-between items-center text-sm text-gray-700'>
               <span>John owes Jane</span>
               <span className='font-bold text-red-500'>$15.00</span>
             </li>
             <li className='flex justify-between items-center text-sm text-gray-700'>
               <span>Jane owes Mike</span>
               <span className='font-bold text-red-500'>$10.00</span>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

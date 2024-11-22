@@ -66,33 +66,35 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
     <div className='bg-white rounded-md p-4 max-w-4xl mx-auto shadow-md'>
       <h2 className='font-extrabold text-lg text-center mb-4'>🧹 Chores</h2>
 
-      <AddNewItem
-        addNewItemFunction={addChore}
-        newItem={newChore}
-        setNewItemFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setNewChore(e.target.value)
-        }
-        placeHolderText='Add new chore'
-      />
+      <div className='bg-gray-50 rounded-md p-4'>
+        <AddNewItem
+          addNewItemFunction={addChore}
+          newItem={newChore}
+          setNewItemFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setNewChore(e.target.value)
+          }
+          placeHolderText='Add new chore'
+        />
 
-      <form onSubmit={removeSelectedChores} className='mt-4'>
-        <HouseholdList>
-          {chores.map((chore) => (
-            <HouseholdListItem
-              key={chore}
-              item={chore}
-              onItemSelect={choreSelection}
-              selectedItems={selectedChores}
-            />
-          ))}
-        </HouseholdList>
+        <form onSubmit={removeSelectedChores} className='mt-4'>
+          <HouseholdList>
+            {chores.map((chore) => (
+              <HouseholdListItem
+                key={chore}
+                item={chore}
+                onItemSelect={choreSelection}
+                selectedItems={selectedChores}
+              />
+            ))}
+          </HouseholdList>
 
-        {selectedChores.length >= 1 && (
-          <div className='mt-4 flex justify-start items-center'>
-            <RemoveButton />
-          </div>
-        )}
-      </form>
+          {selectedChores.length >= 1 && (
+            <div className='mt-4 flex justify-start items-center'>
+              <RemoveButton />
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };
