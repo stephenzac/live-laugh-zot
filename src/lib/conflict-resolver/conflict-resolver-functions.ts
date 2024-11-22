@@ -1,13 +1,7 @@
-import OpenAI from 'openai';
-// import axios from 'axios';
-// import dotenv from 'dotenv';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// dotenv.config();
-// const configuration = new Configuration({ apiKey: process.env.OPENAPI_KEY });
-
-const apiKey = process.env.OPENAI_KEY;
-const baseURL = 'https://api.openai.com/v1/chat/completions';
-const api = new OpenAI({ apiKey, baseURL });
+const api = new GoogleGenerativeAI(`${process.env.API_KEY}`);
+const model = api.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 export const decideResolver = async (
   problem: string,
@@ -40,18 +34,8 @@ export const diceResolver = (people: string[]) => {
 };
 
 export const decideAI = async (userInput: string, systemPrompt: string) => {
-  const chatResponse = await api.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [
-      {
-        role: 'system',
-        content: systemPrompt,
-      },
-      {
-        role: 'user',
-        content: userInput,
-      },
-    ],
-  });
-  return chatResponse.choices[0].message;
+  const result = await model.generateContent(
+    `${systemPrompt} \nThe problem at hand is: ${userInput}`
+  );
+  return result.response.text();
 };
