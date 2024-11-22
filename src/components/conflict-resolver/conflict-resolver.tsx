@@ -141,7 +141,7 @@ export const ConflictResolver: React.FC<ConflictResolverProps> = ({
 
       {responseMessage && (
         <div
-          className={`mt-4 text-center text-sm font-medium p-2 rounded-md  flex items-center justify-center max-w-sm mx-auto ${
+          className={`mt-4 text-center text-sm font-medium p-2 rounded-md  flex items-center justify-center max-w-xs mx-auto ${
             responseMessage.startsWith('Conflict resolved:')
               ? 'bg-green-100 text-green-700'
               : 'bg-red-100 text-red-700'

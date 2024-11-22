@@ -29,7 +29,7 @@ export default function HouseholdPage() {
           <TheForum householdName={name!} id={id!} />
         </div>
       </div>
-      <div className='flex flex-col md:flex-row gap-8'>
+      <div className='flex flex-col md:flex-row self-center gap-8'>
         <ConflictResolver householdName={name!} id={id!} />
         <Treasury householdName={name!} id={id!} />
       </div>
