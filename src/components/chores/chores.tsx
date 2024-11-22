@@ -10,6 +10,7 @@ import {
 import { HouseholdList } from '../household-list/household-list';
 import { HouseholdListItem } from '../household-list/household-list-item';
 import { AddNewItem } from '../household-list/add-new-item';
+import { RemoveButton } from '../household-list/remove-button';
 
 interface ChoresProps {
   householdName: string;
@@ -62,8 +63,8 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
   };
 
   return (
-    <div className='text-center bg-white p-4 rounded-md'>
-      <h2 className='text-center'>chores</h2>
+    <div className='bg-white rounded-md p-4 max-w-4xl mx-auto shadow-md'>
+      <h2 className='font-extrabold text-lg text-center mb-4'>🧹 Chores</h2>
 
       <AddNewItem
         addNewItemFunction={addChore}
@@ -74,7 +75,7 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
         placeHolderText='Add new chore'
       />
 
-      <form onSubmit={removeSelectedChores}>
+      <form onSubmit={removeSelectedChores} className='mt-4'>
         <HouseholdList>
           {chores.map((chore) => (
             <HouseholdListItem
@@ -87,9 +88,9 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
         </HouseholdList>
 
         {selectedChores.length >= 1 && (
-          <button className='bg-orange-200 p-1 rounded-md' type='submit'>
-            Remove selected
-          </button>
+          <div className='mt-4 flex justify-start items-center'>
+            <RemoveButton />
+          </div>
         )}
       </form>
     </div>

@@ -3,6 +3,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { HouseholdList } from '../household-list/household-list';
 import { addNote, Note, removeNote } from '@/lib/firebase/noteboardFunctions';
+import { RemoveButton } from '../household-list/remove-button';
 
 interface TheForumProps {
   householdName: string;
@@ -60,43 +61,48 @@ export const TheForum: React.FC<TheForumProps> = ({ householdName, id }) => {
   };
 
   return (
-    <div className='bg-white rounded-md p-4'>
-      <h2 className='text-center'>the forum</h2>
+    <div className='bg-white rounded-md p-4 max-w-4xl mx-auto shadow-md'>
+      <h2 className='font-extrabold text-lg text-center mb-4'>📨 The Forum</h2>
 
-      <div className='text-center bg-white rounded-md'>
-        <form onSubmit={addNewNote} className='flex flex-col gap-2 mb-4'>
+      <div className='bg-gray-50 rounded-md p-4'>
+        <form onSubmit={addNewNote} className='flex flex-col gap-4 mb-6'>
           <input
-            className='text-center rounded-md border-2 border-slate-300'
+            className='text-center rounded-md border-2 border-slate-300 p-2 w-full'
             type='text'
             placeholder='Name'
             onChange={(e) => setNewNotePoster(e.target.value)}
             value={newNotePoster || ''}
           />
 
-          <input
-            className='text-center rounded-md border-2 border-slate-300'
-            type='text'
+          <textarea
+            className='text-center rounded-md border-2 border-slate-300 p-2 w-full resize-none'
             placeholder='Write your message'
             onChange={(e) => setNewNoteContent(e.target.value)}
             value={newNoteContent || ''}
           />
 
-          <button className='bg-orange-200 p-1 rounded-md' type='submit'>
-            Add message
+          <button
+            className='bg-orange-200 text-white font-bold p-2 rounded-md w-full'
+            type='submit'
+          >
+            Add Message
           </button>
         </form>
 
         <form onSubmit={removeSelectedNotes}>
           <HouseholdList>
             {notes.map((note) => (
-              <li key={note.id}>
-                <div className='flex flex-col items-start'>
-                  <input
-                    type='checkbox'
-                    onChange={() => noteSelection(note.id)}
-                    checked={selectedNotes.includes(note.id)}
-                    className='accent-green-500'
-                  />
+              <li
+                key={note.id}
+                className='flex flex-col md:flex-row items-start md:items-center gap-3 p-3 bg-white border rounded-md shadow-sm'
+              >
+                <input
+                  type='checkbox'
+                  onChange={() => noteSelection(note.id)}
+                  checked={selectedNotes.includes(note.id)}
+                  className='accent-green-500'
+                />
+                <div className='flex flex-col'>
                   <p className='font-bold'>{note.poster}</p>
                   <p className='text-gray-400 text-sm'>{note.timestamp}</p>
                   <p>{note.content}</p>
@@ -106,9 +112,11 @@ export const TheForum: React.FC<TheForumProps> = ({ householdName, id }) => {
           </HouseholdList>
 
           {selectedNotes.length >= 1 && (
-            <button className='bg-orange-200 p-1 rounded-md' type='submit'>
-              Remove selected
-            </button>
+            <div className='mt-4 flex justify-start'>
+              <div className='w-full flex justify-start'>
+                <RemoveButton />
+              </div>
+            </div>
           )}
         </form>
       </div>

@@ -12,16 +12,14 @@ export const AddNewItem: React.FC<AddNewItemProps> = ({
   setNewItemFunction,
   newItem,
   placeHolderText,
-}) => {
-  return (
-    <form onSubmit={addNewItemFunction} className='mb-4'>
-      <input
-        className='text-center rounded-md border-2 border-slate-300'
-        type='text'
-        onChange={setNewItemFunction}
-        placeholder={placeHolderText}
-        value={newItem ?? ''}
-      />
-    </form>
-  );
-};
+}) => (
+  <form onSubmit={addNewItemFunction} className='mt-2 mb-2'>
+    <input
+      className='text-center rounded-md border-2 border-slate-300'
+      type='text'
+      onChange={setNewItemFunction}
+      placeholder={placeHolderText}
+      value={newItem ?? ''}
+    />
+  </form>
+);

@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { HouseholdList } from '../household-list/household-list';
 import { HouseholdListItem } from '../household-list/household-list-item';
 import { AddNewItem } from '../household-list/add-new-item';
+import { RemoveButton } from '../household-list/remove-button';
 
 interface MembersProps {
   householdName: string;
@@ -29,7 +30,7 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
     const unsubscribe = onSnapshot(householdDocRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.data();
-        setResidents(data.residents);
+        setResidents(data.residents || []);
       }
     });
 
@@ -41,7 +42,7 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
     if (!newResident) return;
 
     addToField(id, 'residents', newResident);
-    setNewResident(null);
+    setNewResident('');
   };
 
   const residentSelection = (resident: string) => {
@@ -57,15 +58,15 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
 
     if (!selectedResidents.length) return;
 
-    selectedResidents.forEach(
-      async (resident) => await deleteFromField(id, 'residents', resident)
-    );
+    selectedResidents.forEach(async (resident) => {
+      await deleteFromField(id, 'residents', resident);
+    });
     setSelectedResidents([]);
   };
 
   return (
-    <div className='text-center bg-white p-4 rounded-md'>
-      <h2 className='text-center'>residents</h2>
+    <div className='bg-white rounded-md p-4 max-w-4xl mx-auto shadow-md'>
+      <h2 className='font-extrabold text-lg text-center mb-4'>🏠 Residents</h2>
 
       <AddNewItem
         addNewItemFunction={addNewResident}
@@ -76,7 +77,7 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
         placeHolderText='Add a new resident'
       />
 
-      <form onSubmit={removeSelectedResidents}>
+      <form onSubmit={removeSelectedResidents} className='mt-4'>
         <HouseholdList>
           {residents.map((resident) => (
             <HouseholdListItem
@@ -89,9 +90,9 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
         </HouseholdList>
 
         {selectedResidents.length >= 1 && (
-          <button className='bg-orange-200 p-1 rounded-md' type='submit'>
-            Remove selected
-          </button>
+          <div className='mt-4 flex justify-start'>
+            <RemoveButton />
+          </div>
         )}
       </form>
     </div>

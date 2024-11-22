@@ -4,7 +4,7 @@ interface HouseholdListProps {
 
 export const HouseholdList: React.FC<HouseholdListProps> = ({ children }) => {
   return (
-    <ul className='max-h-48 overflow-y-auto flex flex-col items-start pl-4 mb-4'>
+    <ul className='max-h-56 gap-1 overflow-y-auto flex flex-col items-start mb-4'>
       {children}
     </ul>
   );
