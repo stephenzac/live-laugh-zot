@@ -86,8 +86,8 @@ export const CreateHouseholdForm: React.FC = () => {
         disabled={invalidEntry}
         className={`flex justify-center w-16 transition-colors ${
           invalidEntry
-            ? 'bg-amber-100 text-gray-300 hover:cursor-not-allowed'
-            : 'bg-amber-200'
+            ? 'bg-amber-100 text-gray-300 hover:cursor-not-allowed mb-10'
+            : 'bg-amber-200 mb-10'
         }`}
       >
         Create
