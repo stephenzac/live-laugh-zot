@@ -1,70 +1,61 @@
 import { db } from "./firebaseConfig";
-import { collection, doc, getDoc, getDocs, query, where, updateDoc, arrayUnion, arrayRemove} from 'firebase/firestore';
+import { collection, doc, getDoc, updateDoc, arrayUnion, arrayRemove} from 'firebase/firestore';
 
-export class Cost {
-    public id: string;
-    public title: string;
-    public category: string;
-    public amount: number;
-    public payer: string;
-
-    public constructor(id: string, title: string, category: string, amount: number, payer: string) {
-        this.id = id;
-        this.title = title;
-        this.category = category;
-        this.amount = +amount.toFixed(2);
-        this.payer = payer;
-    }
+interface Cost {
+    id: string;
+    title: string;
+    category: string;
+    amount: number;
+    payer: string;
 }
 
-export class Trans {
-    public payer: string;
-    public paid: string;
-    public amount: number;
-
-    public constructor(payer: string, paid: string, amount: number) {
-        this.payer = payer;
-        this.paid = paid;
-        this.amount = +amount.toFixed(2);
-    }
+interface Trans {
+    payer: string;
+    paid: string;
+    amount: number;
 } 
 
-export const getCosts = async (householdId: string): Promise<Cost[]> => {
+export const getCosts = async (householdId: string): Promise<Cost[] | undefined> => {
     const houseRef = doc(collection(db, "households"), householdId);
     const houseSnap = await getDoc(houseRef);
     if(houseSnap.exists()){
         return houseSnap.data()["Costs"];
     }
-    throw new Error("Household does not exist :(");
+    console.error("Household does not exist :(");
 };
 
 export const addCost = async(
     householdId: string, id: string, title: string, category: string, amount: number, payer: string
     ) => {
     if (!householdId) {
-        throw new Error("No household ID has been provided.");
+        console.error("No household ID has been provided.");
     }
     if (!id) {
-        throw new Error("No Id has been provided.");
+        console.error("No Id has been provided.");
     }
     if (!title) {
-        throw new Error("No title was given.");
+        console.error("No title was given.");
     }
     if (!amount) {
-        throw new Error("A payment amount is required.");
+        console.error("A payment amount is required.");
     }
     if (!payer) {
-        throw new Error("A payer has not been provided.");
+        console.error("A payer has not been provided.");
     }
 
     try {
-        const cost = new Cost(id, title, category, amount, payer);
+        const cost: Cost = {
+            id: id, 
+            title: title,
+            category: category,
+            amount: amount,
+            payer: payer,
+        };
         const houseRef = doc(collection(db, "households"), householdId);
         await updateDoc(houseRef, {Costs: arrayUnion(cost)});
     } 
     catch (error) {
         console.error("There was an error adding the cost", error);
-        throw error;
     }
 }
 
@@ -72,7 +63,7 @@ export const updateCost = async(
     householdId: string, id: string, title: string, category: string, amount: number, payer: string
     ) => {
     if (!id) {
-        throw new Error("No Id was given.");
+        console.error("No Id was given.");
     }
 
     try {
@@ -82,35 +73,48 @@ export const updateCost = async(
             const costs = houseSnap.data()["Costs"];
             const toUpdate = costs.find((i: Cost) => i.id == id);
             if(toUpdate.exists()){
+                let newTitle: string = toUpdate.title;
+                let newCategory: string = toUpdate.category;
+                let newAmount: number = toUpdate.amount;
+                let newPayer: string = toUpdate.payer;
                 if(title){
-                    toUpdate.title = title;
+                    newTitle = title;
                 }
                 if(category){
-                    toUpdate.category = category;
+                    newCategory = category;
                 }
                 if(amount){
-                    toUpdate.amount = +amount.toFixed(2);
+                    newAmount = +amount.toFixed(2);
                 }
                 if(payer){
-                    toUpdate.payer = payer;
+                    newPayer = payer;
                 }
+
+                const newCost: Cost = {
+                    id: id, 
+                    title: newTitle,
+                    category: newCategory,
+                    amount: newAmount,
+                    payer: newPayer,
+                };
+                await updateDoc(houseRef, {Costs: arrayRemove(toUpdate)});
+                await updateDoc(houseRef, {Costs: arrayUnion(newCost)});
             }
             else{
-                throw new Error("Cost with given id does not exist");
+                console.error("Cost with given id does not exist");
             }
         }
-        throw new Error("Household does not exist :(");
+        console.error("Household does not exist :(");
         
     } 
     catch (error) {
         console.error("There was an error updating the cost", error);
-        throw error;
     }
 }
 
 export const removeCost = async(householdId: string, id: string) => {
     if (!id) {
-        throw new Error("No Id was given.");
+        console.error("No Id was given.");
     }
 
     try {
@@ -123,49 +127,51 @@ export const removeCost = async(householdId: string, id: string) => {
                 await updateDoc(houseRef, {Costs: arrayRemove(toRemove)});
             }
             else{
-                throw new Error("Cost with given id does not exist");
+                console.error("Cost with given id does not exist");
             }
         }
-        throw new Error("Household does not exist :(");
+        console.error("Household does not exist :(");
         
     } 
     catch (error) {
         console.error("There was an error removing the cost", error);
-        throw error;
     }
 }
 
-export const getTrans = async (householdId: string): Promise<Trans[]> => {
+export const getTrans = async (householdId: string): Promise<Trans[] | undefined> => {
     const houseRef = doc(collection(db, "households"), householdId);
     const houseSnap = await getDoc(houseRef);
     if(houseSnap.exists()){
         return houseSnap.data()["Trans"];
     }
-    throw new Error("Household does not exist :(");
+    console.error("Household does not exist :(");
 };
 
 export const addTrans = async(householdId: string, payer: string, paid: string, amount: number) => {
     if (!householdId) {
-        throw new Error("No household ID has been provided.");
+        console.error("No household ID has been provided.");
     }
     if (!payer) {
-        throw new Error("Who's paying?");
+        console.error("Who's paying?");
     }
     if (!paid) {
-        throw new Error("Who's getting paid?");
+        console.error("Who's getting paid?");
     }
     if (!amount) {
-        throw new Error("A payment amount is required.");
+        console.error("A payment amount is required.");
     }
     
     try {
-        const trans = new Trans(payer, paid, amount);
+        const trans: Trans = {
+            payer: payer,
+            paid: paid,
+            amount: amount
+        }
         const houseRef = doc(collection(db, "households"), householdId);
         await updateDoc(houseRef, {Trans: arrayUnion(trans)});
     } 
     catch (error) {
         console.error("There was an error adding the transaction", error);
-        throw error;
     }
 }
 
