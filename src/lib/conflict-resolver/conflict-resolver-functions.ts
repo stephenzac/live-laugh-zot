@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const api = new GoogleGenerativeAI(`${process.env.API_KEY}`);
+const api = new GoogleGenerativeAI(`${process.env.NEXT_PUBLIC_API_KEY}`);
 const model = api.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 export const decideResolver = async (
@@ -9,9 +9,13 @@ export const decideResolver = async (
   resolution: string
 ) => {
   const numPeople = people.length;
-  if (resolution == 'dice' && numPeople == 2) return diceResolver(people);
-  else if (resolution == 'coin' && numPeople > 2) return coinResolver(people);
-  else if (resolution == 'AI') {
+  if (resolution == 'dice') {
+    if (numPeople == 2) return diceResolver(people);
+    else return 'Make sure there are only 2 people involved.';
+  } else if (resolution == 'coin') {
+    if (numPeople > 2) return coinResolver(people);
+    else return 'Make sure there are more than 2 people involved.';
+  } else if (resolution == 'AI') {
     const systemPrompt = `Be concise and give one solution to a conflict. Limit your answer to 
       4 sentences.The person(s) involved are: ${people.join(
         ', '
