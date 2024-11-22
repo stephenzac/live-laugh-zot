@@ -1,13 +1,13 @@
 import OpenAI from 'openai';
+// import axios from 'axios';
+// import dotenv from 'dotenv';
 
-const baseURL = 'https://api.aimlapi.com/v1';
-const apiKey = process.env.OPENAIKEY;
+// dotenv.config();
+// const configuration = new Configuration({ apiKey: process.env.OPENAPI_KEY });
 
-const api = new OpenAI({
-  apiKey: '164587c4c89f4d10ace7dd902f2e7593',
-  baseURL,
-  dangerouslyAllowBrowser: true,
-});
+const apiKey = process.env.OPENAI_KEY;
+const baseURL = 'https://api.openai.com/v1/chat/completions';
+const api = new OpenAI({ apiKey, baseURL });
 
 export const decideResolver = async (
   problem: string,
@@ -40,8 +40,8 @@ export const diceResolver = (people: string[]) => {
 };
 
 export const decideAI = async (userInput: string, systemPrompt: string) => {
-  const completion = await api.chat.completions.create({
-    model: 'mistralai/Mistral-7B-Instruct-v0.2',
+  const chatResponse = await api.chat.completions.create({
+    model: 'gpt-4o-mini',
     messages: [
       {
         role: 'system',
@@ -52,11 +52,6 @@ export const decideAI = async (userInput: string, systemPrompt: string) => {
         content: userInput,
       },
     ],
-    temperature: 0.7,
-    max_tokens: 256,
   });
-
-  const chatResponse = completion?.choices?.[0]?.message?.content;
-
-  return chatResponse;
+  return chatResponse.choices[0].message;
 };
