@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap");
+
 :root {
   --background: #fe0000;
   --foreground: #00ff0d; 
@@ -17,5 +19,6 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: cursive;
+  font-family: "Geist_Mono";
 }
+
