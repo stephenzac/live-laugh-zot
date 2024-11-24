@@ -1,4 +1,4 @@
-export const titleCase = (name: string) => {
+export const kebabCase = (name: string) => {
   const splitName = name.split(' ');
   let formattedName = '';
   const length = splitName.length;

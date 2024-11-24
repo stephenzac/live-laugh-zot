@@ -1,3 +1,5 @@
+'user server';
+
 import { db } from './firebaseConfig';
 import {
   collection,

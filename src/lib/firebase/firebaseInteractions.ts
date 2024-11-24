@@ -20,7 +20,7 @@ export const deleteFromField = async (
     else if (fieldName == 'residents')
       await updateDoc(docRef, { residents: arrayRemove(memberName) });
   } catch (error) {
-    console.error(`Failed to delete ${memberName}.`, error);
+    console.log(`Failed to delete ${memberName}.`, error);
   }
 };
 
@@ -41,6 +41,6 @@ export const addToField = async (
     else if (fieldName == 'residents')
       await updateDoc(docRef, { residents: arrayUnion(memberName) });
   } catch (error) {
-    console.error(`Failed to add ${memberName}}.`, error);
+    console.log(`Failed to add ${memberName}}.`, error);
   }
 };

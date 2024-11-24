@@ -1,7 +1,6 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+'user server';
 
-const api = new GoogleGenerativeAI(`${process.env.NEXT_PUBLIC_API_KEY}`);
-const model = api.getGenerativeModel({ model: 'gemini-1.5-flash' });
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export const decideResolver = async (
   problem: string,
@@ -19,7 +18,7 @@ export const decideResolver = async (
   }
 };
 
-export const randomResolver = (people: string[]) => {
+const randomResolver = (people: string[]) => {
   const numPeople = people.length;
   const winner = Math.round(Math.random() * numPeople);
   for (let i = 0; i < numPeople; i++) {
@@ -27,7 +26,10 @@ export const randomResolver = (people: string[]) => {
   }
 };
 
-export const decideAI = async (userInput: string, systemPrompt: string) => {
+const decideAI = async (userInput: string, systemPrompt: string) => {
+  const api = new GoogleGenerativeAI(`${process.env.NEXT_PUBLIC_API_KEY}`);
+  const model = api.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
   const result = await model.generateContent(
     `${systemPrompt} \nThe problem at hand is: ${userInput}`
   );

@@ -11,13 +11,11 @@
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "@next/font": "^14.2.15",
-    "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "firebase": "^11.0.2",
     "firebase-tools": "^13.25.0",
     "next": "15.0.3",
-    "openai": "^4.73.0",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "zustand": "^5.0.1"
