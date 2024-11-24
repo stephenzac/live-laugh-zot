@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Live, Laugh, Zot
 
-## Getting Started
+## 🏆 1st Place at ICSSC's WebJam 2024 🏆
 
-First, run the development server:
+## 🧐 What is Live, Laugh, Zot?
+Live, Laugh, Zot is a way for you to collaborate with your roommates in *real-time* on things like chores, groceries, and resolving your conflicts! We aim to facilitate simple collaboration and teamwork between those organizing their living situation with each other.
+- Engineered and hacked by Yoav Feigenbaum, Michelle Lee, and Stephen Zacarias
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 💭 Problems we faced
+- Finding which Generative AI API to use
+	- Heavy rate-limiting on free API tiers would heavily hinder development time
+- Storing our web app's data
+	- We considered using Socket.IO, but which would have required more manual setup of collections of households and data modeling
+	- Google's Cloud Firestore fit perfectly into our goal of real-time updates for collaboration, and provided easy setup/use for quick development times
+- Modeling our web app's data
+	- TypeScript allowed us to model our data in both front end and back end code, and to easily catch errors during development
+- Authentication
+	- Password hashing + salting allowed us to securely store and check passwords, and a simple Zustand store helped us store authentication state on the client!
+- Implementing the cost splitter
+	- Given the limited time frame, we weren't able to fully finish this - things like adding payments to outstanding bills would have to lead to cascading changes in other database entries - a challenge for our NoSQL store
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧠 What we learned
+- Learning how to use Firebase, and achieving actual real-time changes in our application was very rewarding
+- Fitting TypeScript into real-world applications
+- Becoming better team players!
+	- There's always room to improve your work ethic and be a better problem-solver
+	- Communication of goals and the fine details
+	- Coordination of reviewing PRs and pushing to/pulling from main
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Technologies and Tools we used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)  ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)  ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34)  ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)  ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)  
