@@ -20,7 +20,7 @@ export interface Cost {
   payer: string;
 }
 
-export interface Trans {
+export interface Transaction {
   payer: string;
   paid: string;
   amount: number;
@@ -160,7 +160,7 @@ export const removeCost = async (householdId: string, id: number) => {
 
 export const getTrans = async (
   householdId: string
-): Promise<Trans[] | undefined> => {
+): Promise<Transaction[] | undefined> => {
   const houseRef = doc(collection(db, 'households'), householdId);
   const houseSnap = await getDoc(houseRef);
 
@@ -191,7 +191,7 @@ export const addTrans = async (
   }
 
   try {
-    const trans: Trans = {
+    const trans: Transaction = {
       payer: payer,
       paid: paid,
       amount: amount,
@@ -206,7 +206,7 @@ export const addTrans = async (
 export const calcTrans = (
   people: string[],
   costs: Cost[],
-  transList: Trans[]
+  transList: Transaction[]
 ): number[][] => {
   const numCosts: number = costs.length;
   const numPeople: number = people.length;

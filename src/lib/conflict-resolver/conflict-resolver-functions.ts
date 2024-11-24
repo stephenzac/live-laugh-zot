@@ -1,4 +1,4 @@
-'user server';
+'use server';
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
 

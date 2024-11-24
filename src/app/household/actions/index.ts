@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/firebase/firebaseConfig';
-import { kebabCase } from '@/lib/firebase/string';
+import { kebabCase } from '@/lib/utils/string';
 import { compareSync } from 'bcryptjs';
 import {
   collection,

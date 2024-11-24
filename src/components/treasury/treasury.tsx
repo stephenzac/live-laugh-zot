@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase/firebaseConfig';
-import { addCost, Cost, Trans } from '@/lib/firebase/treasuryFunctions';
+import { addCost, Cost, Transaction } from '@/lib/firebase/treasuryFunctions';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
@@ -10,7 +10,7 @@ interface TreasuryProps {
 
 export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
   const [costs, setCosts] = useState<Cost[]>([]);
-  const [transactions, setTransactions] = useState<Trans[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const [newCost, setNewCost] = useState({
     title: '',
