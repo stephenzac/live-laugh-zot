@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
-    "@next/font": "^14.2.15",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "firebase": "^11.0.2",

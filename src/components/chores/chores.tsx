@@ -23,8 +23,6 @@ export const Chores: React.FC<ChoresProps> = ({ householdName, id }) => {
   const [selectedChores, setSelectedChores] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!householdName || !id) return;
-
     const householdDocRef = doc(db, 'households', id);
 
     const unsubscribe = onSnapshot(householdDocRef, (snapshot) => {

@@ -21,8 +21,6 @@ export const ConflictResolver: React.FC<ConflictResolverProps> = ({
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!householdName || !id) return;
-
     const householdDocRef = doc(db, 'households', id);
 
     const unsubscribe = onSnapshot(householdDocRef, (snapshot) => {
