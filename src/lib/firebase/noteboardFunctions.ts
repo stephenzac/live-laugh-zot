@@ -1,3 +1,5 @@
+'use server';
+
 import { db } from './firebaseConfig';
 import {
   collection,
@@ -23,9 +25,9 @@ export const getNotes = async (
   const houseRef = doc(collection(db, 'households'), householdId);
   const houseSnap = await getDoc(houseRef);
 
-  if (houseSnap.exists()) return houseSnap.data()['notes'];
+  if (houseSnap.exists()) return houseSnap.data().notes || [];
 
-  console.error('Household does not exist :(');
+  console.log('Household does not exist :(');
 };
 
 export const addNote = async (
@@ -33,11 +35,11 @@ export const addNote = async (
   poster: string,
   content: string
 ) => {
-  if (!householdId) console.error('No household ID has been provided.');
+  if (!householdId) console.log('No household ID has been provided.');
 
-  if (!poster) console.error('Who is authoring this note?');
+  if (!poster) console.log('Who is authoring this note?');
 
-  if (!content) console.error('Please write a note');
+  if (!content) console.log('Please write a note');
 
   try {
     const id: number = Math.floor(Math.random() * ID_MAX);
@@ -59,13 +61,13 @@ export const addNote = async (
 
     await updateDoc(houseRef, { notes: arrayUnion(note) });
   } catch (error) {
-    console.error('There was an error adding the note', error);
+    console.log('There was an error adding the note', error);
   }
 };
 
 export const removeNote = async (householdId: string, id: number) => {
   if (!id) {
-    console.error('No Id was given.');
+    console.log('No Id was given.');
   }
 
   try {
@@ -74,13 +76,13 @@ export const removeNote = async (householdId: string, id: number) => {
 
     if (houseSnap.exists()) {
       const notes = houseSnap.data().notes || [];
-      const toRemove = notes.find((note: any) => note.id === id);
+      const toRemove = notes.find((note: Note) => note.id === id);
 
       if (!toRemove) return;
 
       await updateDoc(houseRef, { notes: arrayRemove(toRemove) });
     }
   } catch (error) {
-    console.error('There was an error removing the note', error);
+    console.log('There was an error removing the note', error);
   }
 };

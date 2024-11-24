@@ -23,8 +23,6 @@ export const Residents: React.FC<MembersProps> = ({ householdName, id }) => {
   const [selectedResidents, setSelectedResidents] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!householdName || !id) return;
-
     const householdDocRef = doc(db, 'households', id);
 
     const unsubscribe = onSnapshot(householdDocRef, (snapshot) => {

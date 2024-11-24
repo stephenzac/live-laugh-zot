@@ -21,8 +21,6 @@ export const ConflictResolver: React.FC<ConflictResolverProps> = ({
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!householdName || !id) return;
-
     const householdDocRef = doc(db, 'households', id);
 
     const unsubscribe = onSnapshot(householdDocRef, (snapshot) => {
@@ -140,15 +138,15 @@ export const ConflictResolver: React.FC<ConflictResolverProps> = ({
       </form>
 
       {responseMessage && (
-        <div
-          className={`mt-4 text-center text-sm font-medium p-2 rounded-md  flex items-center justify-center max-w-xs mx-auto ${
+        <p
+          className={`mt-4 text-center text-sm font-medium p-4 rounded-md flex items-center justify-center max-w-xs mx-auto ${
             responseMessage.startsWith('Conflict resolved:')
               ? 'bg-green-100 text-green-700'
               : 'bg-red-100 text-red-700'
           }`}
         >
           {responseMessage}
-        </div>
+        </p>
       )}
     </div>
   );

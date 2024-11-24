@@ -23,8 +23,6 @@ export const Groceries: React.FC<GroceriesProps> = ({ householdName, id }) => {
   const [selectedGroceries, setSelectedGroceries] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!householdName || !id) return;
-
     const householdDocRef = doc(db, 'households', id);
 
     const unsubscribe = onSnapshot(householdDocRef, (snapshot) => {

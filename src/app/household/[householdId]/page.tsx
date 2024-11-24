@@ -21,7 +21,7 @@ const goblin = Goblin_One({
 export default function HouseholdPage() {
   const { name, id, authenticated } = useHouseholdStore();
 
-  if (!authenticated) redirect('/');
+  if (!name || !id || !authenticated) redirect('/');
 
   return (
     <div className='flex flex-col gap-8 mb-16'>
@@ -34,17 +34,17 @@ export default function HouseholdPage() {
       <div className='flex flex-col md:flex-row gap-8'>
         <div className='flex flex-col justify-center md:flex-row gap-8 w-full'>
           <div className='flex flex-col gap-4'>
-            <Residents householdName={name!} id={id!} />
-            <Groceries householdName={name!} id={id!} />
+            <Residents householdName={name} id={id} />
+            <Groceries householdName={name} id={id} />
           </div>
 
-          <Chores householdName={name!} id={id!} />
-          <TheForum householdName={name!} id={id!} />
+          <Chores householdName={name} id={id} />
+          <TheForum householdName={name} id={id} />
         </div>
       </div>
       <div className='flex flex-col md:flex-row self-center gap-8'>
-        <ConflictResolver householdName={name!} id={id!} />
-        <Treasury householdName={name!} id={id!} />
+        <ConflictResolver householdName={name} id={id} />
+        <Treasury householdName={name} id={id} />
       </div>
     </div>
   );
