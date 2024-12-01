@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase/firebaseConfig';
-import { addCost, Cost, Trans } from '@/lib/firebase/treasuryFunctions';
+import { addCost, Cost, Transaction } from '@/lib/firebase/treasuryFunctions';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
@@ -10,9 +10,8 @@ interface TreasuryProps {
 
 export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
   const [costs, setCosts] = useState<Cost[]>([]);
-  const [transactions, setTransactions] = useState<Trans[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  // Form state for new cost
   const [newCost, setNewCost] = useState({
     title: '',
     category: '',
@@ -20,7 +19,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
     payer: '',
   });
 
-  // Form state for new transaction
   const [newTransaction, setNewTransaction] = useState({
     payer: '',
     paidTo: '',
@@ -28,8 +26,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
   });
 
   useEffect(() => {
-    if (!householdName || !id) return;
-
     const householdDocRef = doc(db, 'households', id);
 
     const unsubscribe = onSnapshot(householdDocRef, (snapshot) => {
@@ -43,7 +39,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
     return () => unsubscribe();
   }, [householdName, id]);
 
-  // Handle input changes for new cost
   const handleCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewCost((prev) => ({
@@ -52,7 +47,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
     }));
   };
 
-  // Handle input changes for new transaction
   const handleTransactionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewTransaction((prev) => ({
@@ -61,7 +55,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
     }));
   };
 
-  // Handle form submission for new cost
   const handleAddCost = async (e: React.FormEvent) => {
     e.preventDefault();
     const { title, category, amount, payer } = newCost;
@@ -73,7 +66,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
 
     await addCost(id, title, category, parseFloat(amount), payer);
 
-    // Clear form
     setNewCost({
       title: '',
       category: '',
@@ -82,7 +74,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
     });
   };
 
-  // Handle form submission for new transaction
   const handleAddTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
     const { payer, paidTo, amount } = newTransaction;
@@ -94,7 +85,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
 
     // await addTrans(id, payer, paidTo, ...);
 
-    // Clear form
     setNewTransaction({
       payer: '',
       paidTo: '',
@@ -109,7 +99,6 @@ export const Treasury: React.FC<TreasuryProps> = ({ householdName, id }) => {
           💰 Cost Splitter
         </h1>
 
-        {/* Costs and Transactions display */}
         <div className='grid gap-6 mt-6 sm:grid-cols-1 lg:grid-cols-2'>
           <div className='p-4 bg-gray-50 rounded-lg shadow-sm'>
             <h2 className='text-lg font-semibold text-gray-700'>Need to Pay</h2>

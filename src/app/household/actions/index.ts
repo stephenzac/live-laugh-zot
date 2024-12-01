@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/firebase/firebaseConfig';
-import { titleCase } from '@/lib/firebase/string';
+import { kebabCase } from '@/lib/utils/string';
 import { compareSync } from 'bcryptjs';
 import {
   collection,
@@ -51,7 +51,7 @@ export const createHousehold = async (
   }
 
   // Add new household to Firestore
-  const newHouseholdId = titleCase(householdName);
+  const newHouseholdId = kebabCase(householdName);
   const newHouseholdRef = doc(db, 'households', newHouseholdId);
 
   const newHousehold = {
