@@ -1,4 +1,4 @@
-# Live, Laugh, Zot
+# *Live, Laugh, Zot*
 
 ## 🏆 1st Place at ICSSC's WebJam 2024 🏆
 
